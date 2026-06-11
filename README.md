@@ -4,7 +4,7 @@ A minimal static desk bell stopwatch app.
 
 ## Run locally
 
-Open `/home/runner/work/desk-bell/desk-bell/pedestrianlove/desk-bell/index.html` in a browser,
+Open `index.html` in a browser,
 or serve the folder:
 
 ```bash
