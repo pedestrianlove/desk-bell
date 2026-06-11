@@ -19,7 +19,16 @@
       <form id="timeForm" class="time-form">
         <label for="secondsInput">
           Bell time (seconds)
-          <input id="secondsInput" name="seconds" type="number" min="0.1" step="0.1" required />
+          <input
+            id="secondsInput"
+            name="seconds"
+            type="number"
+            min="0.1"
+            step="0.1"
+            placeholder="e.g. 5.0"
+            aria-label="Bell time in seconds"
+            required
+          />
         </label>
         <button type="submit">Add time</button>
       </form>

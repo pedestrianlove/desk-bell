@@ -70,6 +70,7 @@ function renderTimes() {
       const removeBtn = document.createElement("button");
       removeBtn.type = "button";
       removeBtn.textContent = "Remove";
+      removeBtn.setAttribute("aria-label", `Remove bell time at ${(item.ms / 1000).toFixed(1)} seconds`);
       removeBtn.addEventListener("click", () => {
         bellTimes = bellTimes.filter((entry) => entry.id !== item.id);
         renderTimes();
