@@ -26,7 +26,9 @@ function getBellAudioContext() {
     bellAudioContext = new (window.AudioContext || window.webkitAudioContext)();
   }
   if (bellAudioContext.state === "suspended") {
-    bellAudioContext.resume().catch(() => {});
+    bellAudioContext.resume().catch((error) => {
+      console.warn("Failed to resume bell audio context:", error);
+    });
   }
   return bellAudioContext;
 }
