@@ -11,6 +11,7 @@ let startTimestamp = 0;
 let rafId = null;
 let timeId = 0;
 let bellTimes = [];
+let bellAudioContext = null;
 
 function formatElapsed(ms) {
   const totalSeconds = Math.floor(ms / 1000);
@@ -20,8 +21,18 @@ function formatElapsed(ms) {
   return `${minutes}:${seconds}.${tenths}`;
 }
 
+function getBellAudioContext() {
+  if (!bellAudioContext) {
+    bellAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (bellAudioContext.state === "suspended") {
+    bellAudioContext.resume().catch(() => {});
+  }
+  return bellAudioContext;
+}
+
 function ringBell() {
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const audioContext = getBellAudioContext();
   const now = audioContext.currentTime;
   const gain = audioContext.createGain();
   const oscA = audioContext.createOscillator();
@@ -43,13 +54,10 @@ function ringBell() {
   oscB.start(now);
   oscA.stop(now + 0.25);
   oscB.stop(now + 0.25);
-  oscB.onended = () => {
-    audioContext.close().catch(() => {});
-  };
 }
 
 function renderTimes() {
-  timesList.innerHTML = "";
+  const fragment = document.createDocumentFragment();
   bellTimes
     .slice()
     .sort((a, b) => a.ms - b.ms)
@@ -65,8 +73,9 @@ function renderTimes() {
         renderTimes();
       });
       li.append(label, removeBtn);
-      timesList.appendChild(li);
+      fragment.appendChild(li);
     });
+  timesList.replaceChildren(fragment);
 }
 
 function maybeRingBell(currentMs) {
